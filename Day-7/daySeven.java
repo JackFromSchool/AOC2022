@@ -62,8 +62,6 @@ class daySeven {
          }
          else{
 
-            temp = reader.next();
-
             if(temp.equals("dir")){
                goToDirectory().appendDirectory(reader.next(), directoriesList);
             }
