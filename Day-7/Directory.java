@@ -5,6 +5,8 @@ public class Directory {
    
    String name;
    String directoryIn;
+   int sumOfItems;
+   int sumOfInternalDirectories;
    ArrayList<Integer> files = new ArrayList<>();
    ArrayList<String> internalDirectoryKeys = new ArrayList<>();
 
@@ -19,33 +21,31 @@ public class Directory {
 
    public void putFile(int fileSize) {
       this.files.add(fileSize);
+      this.sumOfItems += fileSize;
    }
 
    public void putDirectory(String directoryKey) {
       this.internalDirectoryKeys.add(directoryKey);
    }
 
-   public int getSumOfFiles(ArrayList<Directory> directoryList, HashMap<String, Integer> directoryKeys) {
-      try {
-         this.files.size();
-      } catch (NullPointerException e) {
-         return 0;
-      }
-
+   public void updateSum(ArrayList<Directory> directoryList, HashMap<String, Integer> directoryKeys) {
       int sum = 0;
-      for(int i = 0; i < this.files.size(); i++) {
-         sum+= this.files.get(i);
-      }
-
       try {
          this.internalDirectoryKeys.size();
       } catch (NullPointerException e) {
-         return sum;
+         this.sumOfInternalDirectories = sum;
+         return;
       }
       
       for(int i = 0; i < this.internalDirectoryKeys.size(); i++) {
-         sum += directoryList.get(directoryKeys.get(internalDirectoryKeys.get(i))).getSumOfFiles(directoryList, directoryKeys);
+         sum += directoryList.get(directoryKeys.get(this.internalDirectoryKeys.get(i))).sumOfInternalDirectories+directoryList.get(directoryKeys.get(this.internalDirectoryKeys.get(i))).sumOfItems;
       }
-      return sum;
+
+      this.sumOfInternalDirectories = sum;
    }
+
+   public int getSumOfFiles(ArrayList<Directory> directoryList, HashMap<String, Integer> directoryKeys) {
+      return this.sumOfInternalDirectories+this.sumOfItems;
+   }
+   
 }
