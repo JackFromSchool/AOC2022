@@ -37,7 +37,7 @@ class daySeven {
 
       ArrayList<Directory> directoriesList = new ArrayList<Directory>();
       HashMap<String, Integer> directoriesIndexes = new HashMap<>();
-      directoriesList.add(new Directory("/"));
+      directoriesList.add(new Directory("/", "/"));
       directoriesIndexes.put("/", 0);
 
       String currentDirectory = "/";
@@ -51,7 +51,6 @@ class daySeven {
             if(reader.next().equals("cd")){
                temp = reader.next();
                if(temp.equals("..")){
-                  System.out.println(currentDirectory);
                   currentDirectory = directoriesList.get(directoriesIndexes.get(currentDirectory)).directoryIn;
                }
                else{
@@ -69,7 +68,15 @@ class daySeven {
          }
          else{
          if(temp.equals("dir")){
-            directoriesList.get(directoriesIndexes.get(currentDirectory)).putDirectory(reader.next());
+            temp = reader.next();
+            if(!directoryExists(directoriesList, temp)){
+               lastDirectory = currentDirectory;
+               currentDirectory = temp;
+               directoriesIndexes.put(currentDirectory, directoriesIndexes.size());
+               directoriesList.add(new Directory(currentDirectory, lastDirectory));
+               currentDirectory = lastDirectory;
+            }
+            directoriesList.get(directoriesIndexes.get(currentDirectory)).putDirectory(temp);
          }
          else{
             directoriesList.get(directoriesIndexes.get(currentDirectory)).putFile(Integer.parseInt(temp));
@@ -78,8 +85,6 @@ class daySeven {
          }
 
       }
-
-      System.out.println(directoriesList.get(directoriesIndexes.get("a")).files);
 
       int sum = 0;
       for(int i = 0; i < directoriesList.size(); i ++){
