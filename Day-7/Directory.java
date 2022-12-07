@@ -25,6 +25,9 @@ public class Directory {
    }
 
    public void putDirectory(String directoryKey) {
+      if(this.name.equals(directoryKey)){
+         return;
+      }
       this.internalDirectoryKeys.add(directoryKey);
    }
 
@@ -33,7 +36,12 @@ public class Directory {
       if(this.internalDirectoryKeys.isEmpty()){
          return sum; 
       }
-      for()
+      System.out.println(this.internalDirectoryKeys);
+      for(String i : this.internalDirectoryKeys){
+         sum += directoryList.get(directoryKeys.get(i)).getSumOfFiles(directoryList, directoryKeys);
+      }
+      System.out.println("yay2");
+      return sum;
    }
    
 }

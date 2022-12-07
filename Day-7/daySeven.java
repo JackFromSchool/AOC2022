@@ -85,28 +85,23 @@ class daySeven {
          }
 
       }
+      
+      for(int i = 1; i < directoriesList.size(); i++){
+         System.out.println(directoriesList.get(i).internalDirectoryKeys);
+      }
 
-      for(int x = 0; x < 1; x++){
-         for(int y = 0; y < directoriesList.size(); y++){
-            directoriesList.get(y).updateSum(directoriesList, directoriesIndexes);
-         }
-      }
-      for(int x = 0; x < 1; x++){
-         for(int y = directoriesList.size()-1; y >= 0; y--){
-            directoriesList.get(y).updateSum(directoriesList, directoriesIndexes);
-         }
-      }
       
       int sum = 0;
       
-      for(int i = 0; i < directoriesList.size(); i ++){
+      for(int i = directoriesList.size()-1; i > 0; i--){
          if(directoriesList.get(i).getSumOfFiles(directoriesList, directoriesIndexes) <= 100000){
             sum += directoriesList.get(i).getSumOfFiles(directoriesList, directoriesIndexes);
+            System.out.println(i);
          }
       }
       
-      
       System.out.println(sum);
+      
 
    }
 
