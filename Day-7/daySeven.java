@@ -86,12 +86,15 @@ class daySeven {
 
       }
 
+      System.out.println(directoriesList.get(3).getSumOfFiles(directoriesList, directoriesIndexes);)
+      /*
       int sum = 0;
       for(int i = 0; i < directoriesList.size(); i ++){
          if(directoriesList.get(i).getSumOfFiles(directoriesList, directoriesIndexes) <= 100000){
             sum += directoriesList.get(i).getSumOfFiles(directoriesList, directoriesIndexes);
          }
       }
+      */
       
       System.out.println(sum);
 
