@@ -2,18 +2,22 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.NoSuchElementException;
 
 class daySeven { 
 
-   private static boolean directoryExists( ArrayList<Directory> directoryList, String name) {
-      for(int i = 0; i < directoryList.size(); i++) {
-         if(directoryList.get(i).name.equals(name)){
-            return true;
-         }
+   private static ArrayList<String> pathToCurrent = new ArrayList<>();
+   private static Directory baseDirectory = new Directory("/", "/");
+
+   private static Directory goToDirectory(){
+
+      Directory found = baseDirectory;
+
+      for(String path : pathToCurrent) {
+         found = found.getInnerDirectory(path);
       }
-      return false;
+
+      return found;
+
    }
 
    public static void main(String[] args) {
@@ -35,68 +39,46 @@ class daySeven {
          System.out.println("File not found");
       }
 
-      ArrayList<Directory> directoriesList = new ArrayList<Directory>();
-      HashMap<String, Integer> directoriesIndexes = new HashMap<>();
-      directoriesList.add(new Directory("/", "/"));
-      directoriesIndexes.put("/", 0);
+      ArrayList<Directory> directoriesList = new ArrayList<>();
 
-      String currentDirectory = "/";
-      String lastDirectory;
-
-      for(int currentCommand = 0; currentCommand < commands.size(); currentCommand++){
+      for(int currentCommand = 1; currentCommand < commands.size(); currentCommand++){
          Scanner reader = new Scanner(commands.get(currentCommand));
          String temp = reader.next();
 
          if(temp.equals("$")){
+
             if(reader.next().equals("cd")){
                temp = reader.next();
+               
                if(temp.equals("..")){
-                  currentDirectory = directoriesList.get(directoriesIndexes.get(currentDirectory)).directoryIn;
+                  pathToCurrent.remove(pathToCurrent.size()-1);
                }
                else{
-               lastDirectory = currentDirectory;
-               currentDirectory = temp;
-               if(!directoryExists(directoriesList, currentDirectory)){
-                  directoriesIndexes.put(currentDirectory, directoriesIndexes.size());
-                  directoriesList.add(new Directory(currentDirectory, lastDirectory));
+                  pathToCurrent.add(temp);
                }
-               }
+
             }
-            else{
-               
-            }
+
          }
          else{
-         if(temp.equals("dir")){
-            temp = reader.next();
-            if(!directoryExists(directoriesList, temp)){
-               lastDirectory = currentDirectory;
-               currentDirectory = temp;
-               directoriesIndexes.put(currentDirectory, directoriesIndexes.size());
-               directoriesList.add(new Directory(currentDirectory, lastDirectory));
-               currentDirectory = lastDirectory;
+
+            if(temp.equals("dir")){
+               goToDirectory().appendDirectory(reader.next(), directoriesList);
             }
-            directoriesList.get(directoriesIndexes.get(currentDirectory)).putDirectory(temp);
-         }
-         else{
-            directoriesList.get(directoriesIndexes.get(currentDirectory)).putFile(Integer.parseInt(temp));
-            reader.next();
-         }
+            else {
+               goToDirectory().appendFile(Integer.parseInt(temp));
+               reader.next();
+            }
+
          }
 
       }
-      
-      for(int i = 1; i < directoriesList.size(); i++){
-         System.out.println(directoriesList.get(i).internalDirectoryKeys);
-      }
 
-      
       int sum = 0;
       
-      for(int i = directoriesList.size()-1; i > 0; i--){
-         if(directoriesList.get(i).getSumOfFiles(directoriesList, directoriesIndexes) <= 100000){
-            sum += directoriesList.get(i).getSumOfFiles(directoriesList, directoriesIndexes);
-            System.out.println(i);
+      for(Directory directory : directoriesList) {
+         if(directory.getSumOfFiles() <= 100000){
+            sum += directory.getSumOfFiles();
          }
       }
       
