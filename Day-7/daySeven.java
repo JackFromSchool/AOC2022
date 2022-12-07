@@ -46,12 +46,12 @@ class daySeven {
       for(int currentCommand = 0; currentCommand < commands.size(); currentCommand++){
          Scanner reader = new Scanner(commands.get(currentCommand));
          String temp = reader.next();
-         System.out.println(temp);
 
          if(temp.equals("$")){
             if(reader.next().equals("cd")){
                temp = reader.next();
                if(temp.equals("..")){
+                  System.out.println(currentDirectory);
                   currentDirectory = directoriesList.get(directoriesIndexes.get(currentDirectory)).directoryIn;
                }
                else{
@@ -69,7 +69,7 @@ class daySeven {
          }
          else{
          if(temp.equals("dir")){
-            reader.next();
+            directoriesList.get(directoriesIndexes.get(currentDirectory)).putDirectory(reader.next());
          }
          else{
             directoriesList.get(directoriesIndexes.get(currentDirectory)).putFile(Integer.parseInt(temp));
@@ -83,8 +83,8 @@ class daySeven {
 
       int sum = 0;
       for(int i = 0; i < directoriesList.size(); i ++){
-         if(directoriesList.get(i).getSumOfFiles() <= 100000){
-            sum += directoriesList.get(i).getSumOfFiles();
+         if(directoriesList.get(i).getSumOfFiles(directoriesList, directoriesIndexes) <= 100000){
+            sum += directoriesList.get(i).getSumOfFiles(directoriesList, directoriesIndexes);
          }
       }
       
