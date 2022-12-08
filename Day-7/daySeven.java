@@ -40,6 +40,7 @@ class daySeven {
       }
 
       ArrayList<Directory> directoriesList = new ArrayList<>();
+      directoriesList.add(baseDirectory);
 
       for(int currentCommand = 1; currentCommand < commands.size(); currentCommand++){
          Scanner reader = new Scanner(commands.get(currentCommand));
@@ -74,6 +75,7 @@ class daySeven {
 
       }
 
+      /* Part 1 Soulution
       int sum = 0;
       
       for(Directory directory : directoriesList) {
@@ -83,7 +85,18 @@ class daySeven {
       }
       
       System.out.println(sum);
-      
+      */
+
+      //Part 2
+      int smallest = Integer.MAX_VALUE;
+
+      for(Directory directory : directoriesList) {
+         if(directory.getSumOfFiles() >= 30000000-(70000000-baseDirectory.getSumOfFiles())) {
+            if(directory.getSumOfFiles() < smallest) smallest = directory.getSumOfFiles();
+         }
+      }
+
+      System.out.println(smallest);
 
    }
 
