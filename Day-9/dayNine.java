@@ -2,8 +2,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import org.w3c.dom.Node;
-
 import java.util.ArrayList;
 
 public class dayNine {
@@ -32,14 +30,16 @@ public class dayNine {
          locations.add(new int[]{tailPos[0], tailPos[1]});
       }
 
-      if((headPos[0]-tailPos[0] == -2 || headPos[0]-tailPos[0] == 2) && ){
+      if((headPos[0]-tailPos[0] == -2 || headPos[0]-tailPos[0] == 2) && (headPos[1]-tailPos[1] == -2 || headPos[1]-tailPos[1] == 2)){
          if(headPos[0]-tailPos[0] == 2){
             tailPos[0] += 1;
-            tailPos[1] += 1;
+            if(headPos[1]-tailPos[1] == -2) tailPos[1] -= 1;
+            else tailPos[1] += 1;
          }
          else if(headPos[0]-tailPos[0] == -2) {
-            tailPos[0] += 1;
-            tailPos[1] += 1;
+            tailPos[0] -= 1;
+            if(headPos[1]-tailPos[1] == -2) tailPos[1] -= 1;
+            else tailPos[1] += 1;
          }
          else if(headPos[1]-tailPos[1] == -2) {
             tailPos[0] += 1;
