@@ -32,8 +32,25 @@ public class dayNine {
          locations.add(new int[]{tailPos[0], tailPos[1]});
       }
 
-
-      if(headPos[0] != tailPos[0] ^ headPos[1] != tailPos[1]){
+      if((headPos[0]-tailPos[0] == -2 || headPos[0]-tailPos[0] == 2) && ){
+         if(headPos[0]-tailPos[0] == 2){
+            tailPos[0] += 1;
+            tailPos[1] += 1;
+         }
+         else if(headPos[0]-tailPos[0] == -2) {
+            tailPos[0] += 1;
+            tailPos[1] += 1;
+         }
+         else if(headPos[1]-tailPos[1] == -2) {
+            tailPos[0] += 1;
+            tailPos[1] += 1;
+         }
+         else if(headPos[1]-tailPos[1] == 2) {
+            tailPos[0] += 1;
+            tailPos[1] += 1;
+         }
+      }
+      else if(headPos[0] != tailPos[0] ^ headPos[1] != tailPos[1]){
          if(headPos[0]-tailPos[0] == 2) tailPos[0] += 1;
          else if(headPos[0]-tailPos[0] == -2) tailPos[0] -= 1;
          else if(headPos[1]-tailPos[1] == -2) tailPos[1] -= 1;
@@ -83,6 +100,7 @@ public class dayNine {
          while(reader.hasNextLine()) {
             moves.add(reader.nextLine());
          }
+         reader.close();
 
       } catch (FileNotFoundException e) {
          System.out.println("File not found");
@@ -142,11 +160,11 @@ public class dayNine {
          handleTail(allNodes.get(k), allNodes.get(k+1));
       }
 
-      /*
+      
       for(int i = 0; i < locations.size(); i++) {
-         System.out.println(locations.get(i)[0]+" "+locations.get(i)[1]);
+         System.out.println((locations.get(i)[0]-1000)+" "+(locations.get(i)[1]-1000));
       }
-      */
+      
 
       System.out.println(locations.size());
 
