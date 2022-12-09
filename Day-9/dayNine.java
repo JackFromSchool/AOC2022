@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 public class dayNine {
 
-   private static int[] headPos = {0, 0};
-   private static int[] tailPos = {0, 0};
+   private static int[] headPos = {1000, 1000};
+   private static int[] tailPos = {1000, 1000};
    private static ArrayList<int[]> locations = new ArrayList<>();
 
    private static void handleTail() {
@@ -19,56 +19,29 @@ public class dayNine {
          locations.add(new int[]{tailPos[0], tailPos[1]});
       }
 
-      if(headPos[0] < 0 || headPos[1] < 0){
-         if(headPos[0] != tailPos[0] ^ headPos[1] != tailPos[1]){
-            if(Math.abs(headPos[0])-Math.abs(tailPos[0]) == 2) tailPos[0] -= 1;
-            else if(Math.abs(headPos[0])-Math.abs(tailPos[0]) == -2) tailPos[0] += 1;
-            else if(Math.abs(headPos[1])-Math.abs(tailPos[1]) == -2) tailPos[1] += 1;
-            else if(Math.abs(headPos[1])-Math.abs(tailPos[1]) == 2) tailPos[1] -= 1;
-         }
-         else{
-            if(Math.abs(headPos[0])-Math.abs(tailPos[0]) == 2){
-               tailPos[0] -= 1;
-               tailPos[1] = headPos[1];
-            } 
-            else if(Math.abs(headPos[0])-Math.abs(tailPos[0]) == -2) {
-               tailPos[0] += 1;
-               tailPos[1] = headPos[1];
-            }
-            else if(Math.abs(headPos[1])-Math.abs(tailPos[1]) == -2) {
-               tailPos[1] += 1;
-               tailPos[0] = headPos[0];
-            }
-            else if(Math.abs(headPos[1])-Math.abs(tailPos[1]) == 2) {
-               tailPos[1] -= 1;
-               tailPos[0] = headPos[0];
-            }
-         }
+
+      if(headPos[0] != tailPos[0] ^ headPos[1] != tailPos[1]){
+         if(headPos[0]-tailPos[0] == 2) tailPos[0] += 1;
+         else if(headPos[0]-tailPos[0] == -2) tailPos[0] -= 1;
+         else if(headPos[1]-tailPos[1] == -2) tailPos[1] -= 1;
+         else if(headPos[1]-tailPos[1] == 2) tailPos[1] += 1;
       }
       else{
-         if(headPos[0] != tailPos[0] ^ headPos[1] != tailPos[1]){
-            if(headPos[0]-tailPos[0] == 2) tailPos[0] += 1;
-            else if(headPos[0]-tailPos[0] == -2) tailPos[0] -= 1;
-            else if(headPos[1]-tailPos[1] == -2) tailPos[1] -= 1;
-            else if(headPos[1]-tailPos[1] == 2) tailPos[1] += 1;
+         if(headPos[0]-tailPos[0] == 2){
+            tailPos[0] += 1;
+            tailPos[1] = headPos[1];
+          } 
+          else if(headPos[0]-tailPos[0] == -2) {
+            tailPos[0] -= 1;
+             tailPos[1] = headPos[1];
+          }
+          else if(headPos[1]-tailPos[1] == -2) {
+            tailPos[1] -= 1;
+             tailPos[0] = headPos[0];
          }
-         else{
-            if(headPos[0]-tailPos[0] == 2){
-               tailPos[0] += 1;
-               tailPos[1] = headPos[1];
-            } 
-            else if(headPos[0]-tailPos[0] == -2) {
-               tailPos[0] -= 1;
-               tailPos[1] = headPos[1];
-            }
-            else if(headPos[1]-tailPos[1] == -2) {
-               tailPos[1] -= 1;
-               tailPos[0] = headPos[0];
-            }
-            else if(headPos[1]-tailPos[1] == 2) {
-               tailPos[1] += 1;
-               tailPos[0] = headPos[0];
-            }
+         else if(headPos[1]-tailPos[1] == 2) {
+            tailPos[1] += 1;
+            tailPos[0] = headPos[0];
          }
       }
 
@@ -133,10 +106,17 @@ public class dayNine {
          
       }
 
-      
+      handleTail();
+
+      /*
+      for(int i = 0; i < locations.size(); i++) {
+         System.out.println(locations.get(i)[0]+" "+locations.get(i)[1]);
+      }
+      */
 
       System.out.println(locations.size());
 
+      //6270 too low
    }
 
 }
