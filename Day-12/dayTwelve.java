@@ -1,5 +1,9 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class dayTwelve {
@@ -65,6 +69,15 @@ public class dayTwelve {
       }
    }
 
+   static class CustomComparator implements Comparator<Node> {
+
+      @Override
+      public int compare(Node o1, Node o2) {
+         return o1.FVal > o2.FVal ? 1 : -1;
+      }
+
+   }
+
    private static int getFVal(int x, int y, int previousGVal) {
       int hVal = Math.abs(EXPOS-x)+Math.abs(EYPOS-y);
       int gVal = previousGVal++;
@@ -72,6 +85,13 @@ public class dayTwelve {
    }
 
    private static int doSearch() {
+      
+      ArrayList<Node> open = new ArrayList<>();
+      PriorityQueue<Node> openQ = new PriorityQueue<>(new CustomComparator());
+      ArrayList<Node> closed = new ArrayList<>();
+
+      
+
       
 
       return 0;
