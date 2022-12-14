@@ -2,7 +2,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
@@ -57,6 +56,9 @@ public class dayTwelve {
             }
          }
       }
+      System.out.println(EXPOS+" "+EYPOS);
+
+      System.out.println(doSearch());
 
    }
 
@@ -69,32 +71,85 @@ public class dayTwelve {
       }
    }
 
-   static class CustomComparator implements Comparator<Node> {
-
-      @Override
-      public int compare(Node o1, Node o2) {
-         return o1.FVal > o2.FVal ? 1 : -1;
-      }
-
-   }
-
-   private static int getFVal(int x, int y, int previousGVal) {
-      int hVal = Math.abs(EXPOS-x)+Math.abs(EYPOS-y);
-      int gVal = previousGVal++;
-      return hVal+gVal;
-   }
-
    private static int doSearch() {
       
       ArrayList<Node> open = new ArrayList<>();
-      PriorityQueue<Node> openQ = new PriorityQueue<>(new CustomComparator());
       ArrayList<Node> closed = new ArrayList<>();
 
-      
+      open.add(new Node(SXPOS, SYPOS, 0, 'a'));
 
-      
+      while(!open.isEmpty()) {
+         Node current = open.get(0);
+         for(Node node : open) {
+            if(node.fVal(EXPOS, EYPOS) == current.fVal(EXPOS, EYPOS)) {
+               if(node.gVal < current.gVal) {
+                  current = node;
+               }
+            } else {
+               if(node.fVal(EXPOS, EYPOS) < current.fVal(EXPOS, EYPOS)) {
+                  current = node;
+               }
+            } 
+         }
+         
+         ArrayList<Node> neighbors = new ArrayList<>();
 
+         closed.add(current);
+         open.remove(current);
+
+         //System.out.println(current.x+" "+current.y);
+         if(current.x == EXPOS && current.y == EYPOS) {
+            System.out.println("reached the end");
+            return current.gVal;
+         }
+         int xToCheck = 0;
+         int yToCheck = 0;
+         for(int i = 0; i < 4; i++) {
+            if(i == 0){
+               xToCheck = current.x+1; yToCheck = current.y;
+            }
+            if(i == 1) {
+               xToCheck = current.x; yToCheck = current.y+1;
+            }
+            if(i == 2) {
+               xToCheck = current.x-1; yToCheck = current.y;
+            }
+            if(i == 3) {
+               xToCheck = current.x; yToCheck = current.y-1;
+            }
+            if(xToCheck < map.length && xToCheck > -1 && yToCheck > -1 && yToCheck < map[0].length){
+               if(map[xToCheck][yToCheck] == current.height || map[xToCheck][yToCheck] == current.height+1 || (map[xToCheck][yToCheck] == 'E' && current.height == 'z' || current.height == 'y')) {
+                  boolean isClosed = false;
+                  for(Node node : closed) {
+                     if(node.x == xToCheck && node.y == yToCheck) {
+                        isClosed = true;
+                     }
+                  }
+                  if(!isClosed) {
+                     neighbors.add(new Node(xToCheck, yToCheck, current.gVal+1, map[xToCheck][yToCheck]));
+                  }
+               }
+            } 
+         } 
+         
+         for(Node node : neighbors) {
+            if(node.gVal > current.gVal+1) {
+               node.gVal = current.gVal+1;
+            }
+            boolean inList = false;
+            for(Node node2 : open) {
+               if(node2.x == node.x && node2.y == node.y) {
+                  inList = true;
+               }
+            }
+            if(!inList) {
+               open.add(node);
+            }
+         }
+      }
+      
       return 0;
+      
    }
 
 }
